@@ -1,7 +1,6 @@
 package net.stuff691734.archipelagoLib;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 public class DependencyNotation {
@@ -28,19 +27,16 @@ public class DependencyNotation {
         checks.forEach(this.checks::add);
     }
 
-    public DependencyNotation addCheck(String check) {
+    public void addCheck(String check) {
         this.checks.add(check);
-        return this;
     }
 
-    public DependencyNotation addNested(DependencyNotation dependency) {
+    public void addNested(DependencyNotation dependency) {
         this.nested.add(dependency);
-        return this;
     }
 
-    public DependencyNotation setMinimum(int minimum) {
+    public void setMinimum(int minimum) {
         this.minimum = minimum;
-        return this;
     }
 
     public boolean isEmpty() {

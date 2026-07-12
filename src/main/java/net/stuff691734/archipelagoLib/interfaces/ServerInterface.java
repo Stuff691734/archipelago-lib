@@ -8,6 +8,7 @@ import java.util.Map;
 public interface ServerInterface {
     /**
      * Returns the server instance used to create this object.
+     * If possible try to avoid using this.
      * @return the server instance used to create this object.
      */
     Object getServer();
@@ -55,8 +56,16 @@ public interface ServerInterface {
      */
     AdvancementInterface getAdvancement(String advancementName);
 
+    /**
+     * Returns a list of all advancements.
+     * @return a list of all advancements.
+     */
     List<AdvancementInterface> getAllAdvancements();
 
+    /**
+     * Returns a list of all ftb quests.
+     * @return a list of all ftb quests.
+     */
     List<FTBQuestsInterface> getAllFTBQuests();
 
     /**
@@ -70,5 +79,9 @@ public interface ServerInterface {
      */
     void killPlayers();
 
+    /**
+     * Overrides the {@link net.stuff691734.archipelagoLib.Logic} instance.
+     * Used in cases where slotData is updated.
+     */
     void updateLogic();
 }

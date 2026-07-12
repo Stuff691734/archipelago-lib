@@ -29,6 +29,10 @@ public interface ServerStorageInterface extends StorageInterface {
      */
     Map<String, String> getSlotData();
 
+    /**
+     * Returns a map of collected checks.
+     * @return a map of collected checks.
+     */
     Map<String, Boolean> getChecks();
 
     /**

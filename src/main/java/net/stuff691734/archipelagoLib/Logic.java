@@ -106,7 +106,7 @@ public class Logic {
      * Return whether a connection should be drawn between two advancements.
      * @param parent the advancement gui element at the beginning of the connection, for preventing connections to non-visible advancements.
      * @param advancement the advancement at the end of the connection.
-     * @return whether a connection should be drawn between two advancements.
+     * @return null if no connection should be drawn otherwise returns parent.
      */
     public <T> T isDependencyDrawn(T parent, AdvancementInterface advancement) {
         if (parent == null) return null;
@@ -135,7 +135,7 @@ public class Logic {
      * Returns whether a tab should be drawn.
      * @param tab the tab to prevent trying to show a non-existent tab.
      * @param advancement the root advancement of the tab.
-     * @return whether the tab should be drawn.
+     * @return null if the tab should not be drawn otherwise returns tab.
      */
     public <T> T isTabDrawn(T tab, AdvancementInterface advancement) {
         if (tab == null) return null;
@@ -151,6 +151,12 @@ public class Logic {
         return null;
     }
 
+    /**
+     * Returns whether the quest should be completable.
+     * @param quest the quest to check.
+     * @param original whether the quest is completable before checking against these restrictions.
+     * @return original when this logic allows it to be completed and false otherwise.
+     */
     public boolean isFTBQuestCompletable(FTBQuestsInterface quest, boolean original) {
         if (this.slotData.isInitiated) {
             if (
@@ -193,6 +199,11 @@ public class Logic {
         return false;
     }
 
+    /**
+     * Returns whether the player has all of a list of ftb quest dependencies.
+     * @param requiredChecks a list of ftb quest dependencies to check against.
+     * @return whether the player has all of a list of ftb quest dependencies.
+     */
     private boolean hasRequiredChecks(List<FTBQuestsInterface> requiredChecks) {
         for (DependencyInterface requiredCheck : requiredChecks) {
             if (!this.state.hasCheck(requiredCheck.checkType().addPrefix(requiredCheck.getId()))) {
@@ -202,6 +213,12 @@ public class Logic {
         return true;
     }
 
+    /**
+     * Returns whether the player should be able to claim rewards for this check.
+     * @param quest the quest to check if they can claim rewards for.
+     * @param original whether the rewards are claimable before checking this logic.
+     * @return whether the player should be able to claim rewards for this check.
+     */
     public boolean isFTBQuestRewardObtained(FTBQuestsInterface quest, boolean original) {
         if (this.slotData.isInitiated) {
             if (
@@ -216,6 +233,12 @@ public class Logic {
         return false;
     }
 
+    /**
+     * Returns a map of all advancements to their details.
+     * @param server the server to get advancements from.
+     * @param removeHidden whether to remove hidden advancements (unused)
+     * @return a map of all advancements to their details.
+     */
     private Map<String, Check> generateAdvancementChecks(ServerInterface server, boolean removeHidden) {
         Map<String, Check> checks = new HashMap<>();
 
@@ -247,6 +270,12 @@ public class Logic {
                 ));
     }
 
+    /**
+     * Returns a map of all ftb quests to their details.
+     * @param server the server to get quests from.
+     * @param removeHidden whether to remove hidden quests.
+     * @return a map of all ftb quests to their details.
+     */
     private Map<String, Check> generateFTBQuestChecks(ServerInterface server, boolean removeHidden) {
         Map<String, Check> ftbQuestsChecks = new HashMap<>();
 
@@ -303,6 +332,14 @@ public class Logic {
     }
 
 
+    /**
+     * Writes a file with all check details to ./output/archipelago_data.json.
+     * @param server the server to get check details from.
+     * @param context the context to use send progress messages.
+     * @param singleLine whether to remove extra spacing from the JSON file.
+     * @param removeHidden whether to remove hidden checks.
+     * @return 0 on success, or 1 when if it fails to write a file.
+     */
     public int generateChecks(ServerInterface server, ContextInterface context, boolean singleLine, boolean removeHidden) {
         context.sendMessage("Started writing to file.");
 
@@ -335,6 +372,13 @@ public class Logic {
         return 0;
     }
 
+    /**
+     * Returns a list of dependencies that a ftb quest has.
+     * @param advancementGetter a function to get an instance of an advancement from its id.
+     *                          This should be client sided.
+     * @param quest the quest to get dependencies from.
+     * @return a list of dependencies that a ftb quest has.
+     */
     public List<String> addDependencies(Function<String, AdvancementInterface> advancementGetter, FTBQuestsInterface quest) {
         List<String> items = new ArrayList<>();
         if (
@@ -408,6 +452,12 @@ public class Logic {
         return items;
     }
 
+    /**
+     * Adds a text element to a list with a specified indent.
+     * @param itemList the list to add the text to.
+     * @param text the text to add to the list.
+     * @param indent the amount to indent the text.
+     */
     private void addToMenu(List<String> itemList, String text, int indent) {
         String indentText = indent >= 0 ? new String(new char[indent]).replace("\0", "  ") : "";
         itemList.add(indentText + text);

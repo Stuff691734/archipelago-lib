@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+}
+
+group = 'net.stuff691734'
+version = '0.10.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation('io.github.archipelagomw:Java-Client:0.2.1')
+}

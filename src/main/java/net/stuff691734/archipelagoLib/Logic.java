@@ -234,6 +234,27 @@ public class Logic {
     }
 
     /**
+     * Returns whether this quest is randomized.
+     * @param quest the quest to check for randomization.
+     * @return whether the quest is randomized.
+     */
+    public boolean isFTBQuestRandomized(FTBQuestsInterface quest) {
+        if (this.slotData.isInitiated) {
+            if (
+                this.slotData.activated_modules.contains("FTBQuests") &&
+                this.slotData.ftb_quest_shape.contains(quest.getDifficulty())
+            ) {
+                if (this.slotData.roots_unlocked) {
+                    return !quest.getDependencies().findFirst().isPresent();
+                }
+                return false;
+            }
+            return !quest.getDependencies().findFirst().isPresent();
+        }
+        return false;
+    }
+
+    /**
      * Returns a map of all advancements to their details.
      * @param server the server to get advancements from.
      * @param removeHidden whether to remove hidden advancements (unused)

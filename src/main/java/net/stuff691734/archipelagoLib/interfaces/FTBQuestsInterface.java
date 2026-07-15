@@ -76,7 +76,13 @@ public interface FTBQuestsInterface extends DependencyInterface {
      * Formatted as 'type id (name)'
      * @return the full name of the quest.
      */
-    String getCheckName();
+    default String getCheckName() {
+        if (!this.getName().isEmpty()) {
+            return this.checkType().addPrefix(String.format("%s (%s)", this.getId(), this.getName()));
+        } else {
+            return this.checkType().addPrefix(String.format("%s (%s)", this.getId(), this.getId()));
+        }
+    }
 
     /**
      * A server sided implementation of the {@link FTBQuestsInterface#getCheckName()} method.

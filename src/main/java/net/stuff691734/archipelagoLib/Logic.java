@@ -301,6 +301,11 @@ public class Logic {
         Map<String, Check> ftbQuestsChecks = new HashMap<>();
 
         for (FTBQuestsInterface quest : server.getAllFTBQuests()) {
+            if (removeHidden) {
+                if (quest.isRoot() && quest.isInvisibleUntilCompleted() && quest.hasRewards()) {
+                    continue;
+                }
+            }
             DependencyNotation fullDependency = new DependencyNotation();
             DependencyNotation questDependencies = new DependencyNotation();
             if (quest.getMinimumDependencies() > 0) {

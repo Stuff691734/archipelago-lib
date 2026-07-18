@@ -98,4 +98,14 @@ public interface FTBQuestsInterface extends DependencyInterface {
             return this.checkType().addPrefix(String.format("%s (%s)", this.getId(), this.getId()));
         }
     }
+
+    /**
+     * Returns whether this quest has any rewards.
+     */
+    boolean hasRewards();
+
+    /**
+     * Returns whether this quest is invisible until the quest has been completed.
+     */
+    boolean isInvisibleUntilCompleted();
 }

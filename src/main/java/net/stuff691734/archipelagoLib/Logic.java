@@ -302,7 +302,8 @@ public class Logic {
 
         for (FTBQuestsInterface quest : server.getAllFTBQuests()) {
             if (removeHidden) {
-                if (quest.isRoot() && quest.isInvisibleUntilCompleted() && quest.hasRewards()) {
+                // has no dependants/rewards and is fully invisible
+                if (!quest.hasDependants() && quest.isInvisibleUntilCompleted() && !quest.hasRewards()) {
                     continue;
                 }
             }

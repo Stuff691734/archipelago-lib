@@ -108,4 +108,9 @@ public interface FTBQuestsInterface extends DependencyInterface {
      * Returns whether this quest is invisible until the quest has been completed.
      */
     boolean isInvisibleUntilCompleted();
+
+    /**
+     * Returns whether any quest depends on this quest.
+     */
+    boolean hasDependants();
 }

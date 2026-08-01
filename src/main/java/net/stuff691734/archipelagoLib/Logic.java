@@ -333,6 +333,11 @@ public class Logic {
                 }
             });
 
+            questDependencies.setMinimum(Integer.min(
+                    questDependencies.minimum,
+                    questDependencies.checks.size() + questDependencies.nested.size()
+            ));
+
             fullDependency.addNested(questDependencies);
             fullDependency.addNested(new DependencyNotation(advancementDependencies.stream().map(AdvancementInterface::getCheckName)));
 

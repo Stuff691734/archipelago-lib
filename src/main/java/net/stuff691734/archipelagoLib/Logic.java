@@ -181,7 +181,7 @@ public class Logic {
                     }
                 } else {
                     if (quest.getMinimumDependencies() != 0) {
-                        if (quest.getDependencies().filter(this::hasRequiredChecks).count() >= quest.getMinimumDependencies()) {
+                        if (quest.getDependencies().filter(this::hasRequiredChecks).count() >= Integer.min(quest.getMinimumDependencies(), (int) quest.getDependencies().count())) {
                             return original;
                         }
                     } else if (quest.hasSingleDependencyRequirement()) {
@@ -453,7 +453,7 @@ public class Logic {
                     return items;
                 }
             } else if (quest.getMinimumDependencies() != 0) {
-                addToMenu(items, "At Least " + quest.getMinimumDependencies() + " of: {", indent[0]++);
+                addToMenu(items, "At Least " + Integer.min(quest.getMinimumDependencies(), (int) quest.getDependencies().count()) + " of: {", indent[0]++);
             } else if (quest.hasSingleDependencyRequirement()) {
                 addToMenu(items, "One of: {", indent[0]++);
             } else {

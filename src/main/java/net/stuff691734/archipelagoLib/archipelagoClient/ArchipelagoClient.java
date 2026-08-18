@@ -3,6 +3,7 @@ package net.stuff691734.archipelagoLib.archipelagoClient;
 import com.google.gson.JsonObject;
 import io.github.archipelagomw.Client;
 import io.github.archipelagomw.ClientStatus;
+import io.github.archipelagomw.bounce.DeathLinkHandler;
 import io.github.archipelagomw.events.ArchipelagoEventListener;
 import io.github.archipelagomw.events.ConnectionResultEvent;
 import io.github.archipelagomw.events.PrintJSONEvent;
@@ -188,7 +189,9 @@ public class ArchipelagoClient extends Client {
     }
 
     public void sendDeathLink(String message) {
-        this.sendDeathlink(this.getMyName(), message);
+        if (this.getTags().contains(DeathLinkHandler.DEATHLINK_TAG)) {
+            this.sendDeathlink(this.getMyName(), message);
+        }
     }
 
     public boolean isValidId(CheckType type, String id) {

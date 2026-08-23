@@ -216,21 +216,22 @@ public class Logic {
     /**
      * Returns whether the player should be able to claim rewards for this check.
      * @param quest the quest to check if they can claim rewards for.
-     * @param original whether the rewards are claimable before checking this logic.
+     * @param original whether the rewards are already claimed before checking this logic.
      * @return whether the player should be able to claim rewards for this check.
      */
     public boolean isFTBQuestRewardObtained(FTBQuestsInterface quest, boolean original) {
-        if (this.slotData.isInitiated) {
-            if (
-                this.slotData.activated_modules.contains("FTBQuests") &&
-                this.slotData.ftb_quest_shape.contains(quest.getDifficulty()) &&
-                this.slotData.quest_checks_give_rewards
-            ) {
-                return state.hasCheck(quest.checkType().addPrefix(quest.getId()));
-            }
-            return original;
+        if (!this.slotData.isInitiated) {
+            return false;
         }
-        return false;
+
+        if (
+            this.slotData.activated_modules.contains("FTBQuests") &&
+            this.slotData.ftb_quest_shape.contains(quest.getDifficulty()) &&
+            this.slotData.quest_checks_give_rewards
+        ) {
+            return state.hasCheck(quest.checkType().addPrefix(quest.getId())) && original;
+        }
+        return original;
     }
 
     /**

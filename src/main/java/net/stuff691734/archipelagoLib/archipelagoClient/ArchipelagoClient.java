@@ -10,6 +10,7 @@ import io.github.archipelagomw.events.PrintJSONEvent;
 import io.github.archipelagomw.flags.ItemsHandling;
 import io.github.archipelagomw.network.ConnectionResult;
 import net.stuff691734.archipelagoLib.CheckType;
+import net.stuff691734.archipelagoLib.Logic;
 import net.stuff691734.archipelagoLib.SlotData;
 import net.stuff691734.archipelagoLib.interfaces.*;
 
@@ -235,5 +236,9 @@ public class ArchipelagoClient extends Client {
         String[] checkParts = check.split(" ", 3);
         context.sendMessage(String.valueOf(state.hasCheck(String.format("%s (%s)", (Object[]) checkParts))));
         return 0;
+    }
+
+    public int generateCommand(Logic logic, ContextInterface context, boolean singleLine, boolean removePermaHidden) {
+        return logic.generateChecks(this.server, context, singleLine, removePermaHidden);
     }
 }

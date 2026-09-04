@@ -113,16 +113,10 @@ public class Logic {
         if (!this.slotData.isInitiated) {
             return parent;
         }
-        if (
-            this.slotData.activated_modules.contains("Advancements") &&
-            !this.slotData.advancement_difficulty.contains(advancement.getDifficulty())
-        ) {
-            return null;
+        if (!this.slotData.activated_modules.contains("Advancements")) {
+            return parent;
         }
-        else if (!this.slotData.activated_modules.contains("Advancements")) {
-            if (advancement.isHidden()) {
-                return parent;
-            }
+        if (!this.slotData.advancement_difficulty.contains(advancement.getDifficulty())) {
             return null;
         }
         if (this.shouldShowAdvancement(advancement)) {

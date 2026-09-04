@@ -260,20 +260,22 @@ public class Logic {
 
         for (AdvancementInterface advancement : server.getAllAdvancements()) {
 
-            if (advancement.hasDisplay()) {
+            if (
+                advancement.hasDisplay()
+                && advancement.getRoot().hasDisplay()
+                && !advancement.getRoot().getId().equals("minecraft:recipes/root")
+            ) {
                 AdvancementInterface parent = advancement.getParent();
                 String parent_id = null;
-                if (!parent.isNull() && parent.hasDisplay()) {
+                if (!parent.isNull()) {
                     parent_id = parent.getCheckName();
                 }
 
-                if (parent_id == null || !parent_id.equals("minecraft:recipes/root")) {
-                    checks.put(advancement.getCheckName(), new Check(
-                            advancement.getDifficulty(),
-                            new DependencyNotation(parent_id),
-                            advancement.getRoot().getCheckName()
-                    ));
-                }
+                checks.put(advancement.getCheckName(), new Check(
+                        advancement.getDifficulty(),
+                        new DependencyNotation(parent_id),
+                        advancement.getRoot().getCheckName()
+                ));
             }
         }
         return checks.entrySet().stream()

@@ -51,4 +51,9 @@ public interface DependencyInterface {
             return this.checkType().addPrefix(String.format("%s (%s)", this.getId(), this.getId()));
         }
     }
+
+    /**
+     * Method called after check has been received to update visuals of the check.
+     */
+    void updateVisibility();
 }

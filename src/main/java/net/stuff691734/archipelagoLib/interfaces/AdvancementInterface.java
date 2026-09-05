@@ -43,11 +43,6 @@ public interface AdvancementInterface extends DependencyInterface {
     boolean isHidden();
 
     /**
-     * Updates the visibility of this advancement to prevent instances where the advancement is in logic but not shown.
-     */
-    void updateVisibility();
-
-    /**
      * Returns whether this advancement is null.
      * @return whether this advancement is null.
      */

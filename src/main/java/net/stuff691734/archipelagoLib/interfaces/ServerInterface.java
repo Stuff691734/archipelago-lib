@@ -4,6 +4,7 @@ import net.stuff691734.archipelagoLib.SlotData;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface ServerInterface {
     /**
@@ -67,7 +68,7 @@ public interface ServerInterface {
      * @param questName the id of the quest.
      * @return the quest based on the quest name.
      */
-    FTBQuestsInterface getFTBQuest(String questName);
+    Optional<FTBQuestsInterface> getFTBQuest(String questName);
 
     /**
      * Returns a list of all ftb quests.

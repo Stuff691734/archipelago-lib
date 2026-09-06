@@ -137,7 +137,7 @@ public class ArchipelagoClient extends Client {
                     this.state.addCheck(checkType.addPrefix(questName));
                     this.server.sendCheckPacket(checkType.addPrefix(questName));
 
-                    this.server.getFTBQuest(questName).updateVisibility();
+                    this.server.getFTBQuest(questName).ifPresent(FTBQuestsInterface::updateVisibility);
                 }
                 break;
             case ITEM:

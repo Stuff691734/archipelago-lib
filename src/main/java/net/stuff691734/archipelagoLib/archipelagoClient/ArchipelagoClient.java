@@ -136,6 +136,8 @@ public class ArchipelagoClient extends Client {
                 if (this.server.isModLoaded("ftbquests") && utils.isQuestId(questName)) {
                     this.state.addCheck(checkType.addPrefix(questName));
                     this.server.sendCheckPacket(checkType.addPrefix(questName));
+
+                    this.server.getFTBQuest(questName).updateVisibility();
                 }
                 break;
             case ITEM:

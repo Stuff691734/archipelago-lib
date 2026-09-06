@@ -63,6 +63,13 @@ public interface ServerInterface {
     List<AdvancementInterface> getAllAdvancements();
 
     /**
+     * Returns a quest based on the quest name (id).
+     * @param questName the id of the quest.
+     * @return the quest based on the quest name.
+     */
+    FTBQuestsInterface getFTBQuest(String questName);
+
+    /**
      * Returns a list of all ftb quests.
      * @return a list of all ftb quests.
      */

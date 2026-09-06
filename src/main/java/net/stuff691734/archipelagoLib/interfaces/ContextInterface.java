@@ -10,6 +10,7 @@ public interface ContextInterface {
     /**
      * Sends a translation message to the player issuing the command.
      * @param message the message to translate and send.
+     * @param args the arguments to add to the message.
      */
-    void sendMessageTranslatable(String message);
+    void sendMessageTranslatable(String message, Object... args);
 }

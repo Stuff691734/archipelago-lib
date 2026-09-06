@@ -24,7 +24,7 @@ public interface UtilsInterface extends LoggerInterface {
 
     /**
      * Sends a message to the server console as well as all players.
-     * Prefer using {@link UtilsInterface#sendMessageTranslatable(String message)}.
+     * Prefer using {@link UtilsInterface#sendMessageTranslatable(String message, Object... args)}.
      * @param message the message to send.
      */
     void sendMessage(String message);
@@ -32,8 +32,9 @@ public interface UtilsInterface extends LoggerInterface {
     /**
      * Sends a message to the server console as well as all players with a translated string.
      * @param message the message to translate and send.
+     * @param args the arguments to add to the message.
      */
-    void sendMessageTranslatable(String message);
+    void sendMessageTranslatable(String message, Object... args);
 
     /**
      * Gives all players an item based on the advancement's icon.

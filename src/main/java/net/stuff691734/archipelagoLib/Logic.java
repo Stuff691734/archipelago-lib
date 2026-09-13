@@ -370,7 +370,7 @@ public class Logic {
      * @return 0 on success, or 1 when if it fails to write a file.
      */
     public int generateChecks(ServerInterface server, ContextInterface context, boolean singleLine, boolean removeHidden) {
-        context.sendMessage("Started writing to file.");
+        context.sendMessageTranslatable("archipelago.command.generate.start");
 
         Map<String, Check> checks = new LinkedHashMap<>(this.generateAdvancementChecks(server, removeHidden));
 
@@ -394,10 +394,10 @@ public class Logic {
             gson.toJson(checks, writer);
             writer.close();
         } catch (IOException e) {
-            context.sendMessage(e.getMessage());
+            context.sendMessageTranslatable("archipelago.command.generate.error", e.getMessage());
             return 1;
         }
-        context.sendMessage("Finished writing to file.");
+        context.sendMessageTranslatable("archipelago.command.generate.end");
         return 0;
     }
 

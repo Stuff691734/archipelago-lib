@@ -39,7 +39,7 @@ public class ArchipelagoClient extends Client {
     @Override
     public void onError(Exception ex) {
         utils.logError(ex.getLocalizedMessage());
-        utils.sendMessage(ex.getMessage());
+        utils.sendMessageTranslatable("archipelago.client.error", ex.getMessage());
     }
 
     @Override
@@ -49,20 +49,20 @@ public class ArchipelagoClient extends Client {
 
     @ArchipelagoEventListener
     public void onDeathLink(io.github.archipelagomw.events.DeathLinkEvent event) {
-        utils.sendMessage(String.format("[DeathLink] %s died: %s", event.source, event.cause));
+        utils.sendMessageTranslatable("archipelago.death_link.info", event.source, event.cause);
         server.execute(server::killPlayers);
     }
 
     @ArchipelagoEventListener
     public void onEvent(PrintJSONEvent event) {
-        utils.sendMessage(event.apPrint.getPlainText());
+        utils.sendMessageTranslatable("archipelago.client.message", event.apPrint.getPlainText());
     }
 
     @ArchipelagoEventListener
     public void onConnection(ConnectionResultEvent event) {
         JsonObject data = event.getSlotData(JsonObject.class);
         if (event.getResult() != ConnectionResult.Success) {
-            utils.sendMessage(String.format("Connection Refused: %s",event.getResult().name()));
+            utils.sendMessageTranslatable("archipelago.connection.refused", event.getResult().name());
             return;
         }
 
@@ -100,12 +100,12 @@ public class ArchipelagoClient extends Client {
 
     @ArchipelagoEventListener
     public void onReceiveItems(io.github.archipelagomw.events.ReceiveItemEvent event) {
-        utils.sendMessage(String.format(
-                "Received %s from %s (%s)",
+        utils.sendMessageTranslatable(
+                "archipelago.client.received_check",
                 event.getItemName(),
                 event.getPlayerName(),
                 event.getLocationName()
-        ));
+        );
         String[] itemName = event.getItemName().split(" ",2);
 
         this.parseItem(itemName[0], itemName[1], event.getIndex());
@@ -215,7 +215,7 @@ public class ArchipelagoClient extends Client {
         try {
             this.connect(address);
         } catch (URISyntaxException e) {
-            context.sendMessage("archipelago.connection.invalid_server");
+            context.sendMessageTranslatable("archipelago.connection.invalid_server", address);
             return 1;
         }
         return 0;
@@ -223,20 +223,23 @@ public class ArchipelagoClient extends Client {
 
     public int setPasswordCommand(ContextInterface context, String password) {
         this.setPassword(password);
-        context.sendMessage("Password set successfully");
+        context.sendMessageTranslatable("archipelago.command.password.success");
         return 0;
     }
 
     public int getCommand(ContextInterface context) {
-        context.sendMessage(this.state.getChecks().toString());
-        context.sendMessage(this.state.getSlotData().toString());
-        context.sendMessage(this.getItemManager().getReceivedItemIDs().toString());
+        context.sendMessageTranslatable("archipelago.command.get.checks", this.state.getChecks().toString());
+        context.sendMessageTranslatable("archipelago.command.get.slotData", this.state.getSlotData().toString());
         return 0;
     }
 
     public int getSpecificCommand(ContextInterface context, String check) {
         String[] checkParts = check.split(" ", 3);
-        context.sendMessage(String.valueOf(state.hasCheck(String.format("%s (%s)", (Object[]) checkParts))));
+        context.sendMessageTranslatable(
+                "archipelago.command.get.specific",
+                String.format("%s (%s)", (Object[]) checkParts),
+                String.valueOf(state.hasCheck(String.format("%s (%s)", (Object[]) checkParts)))
+        );
         return 0;
     }
 

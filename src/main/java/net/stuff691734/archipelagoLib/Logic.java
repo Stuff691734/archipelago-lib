@@ -223,7 +223,7 @@ public class Logic {
             this.slotData.ftb_quest_shape.contains(quest.getDifficulty()) &&
             this.slotData.quest_checks_give_rewards
         ) {
-            return state.hasCheck(quest.checkType().addPrefix(quest.getId())) && original;
+            return state.hasCheck(quest.checkType().addPrefix(quest.getId()));
         }
         return original;
     }

@@ -23,6 +23,15 @@ public class Logic {
     }
 
     /**
+     * Creates a new instance using the existing storage interface.
+     * @param slotData the slotData for the new instance.
+     * @return the new instance.
+     */
+    public Logic updateSlotData(SlotData slotData) {
+        return new Logic(this.state, slotData);
+    }
+
+    /**
      * Returns whether an advancement should get shown in a gui.
      * @param advancement the advancement to check against.
      * @return whether an advancement should get shown in a gui.

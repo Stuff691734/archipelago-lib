@@ -5,6 +5,7 @@ import java.util.Objects;
 public enum CheckType {
     ADVANCEMENT("adv"),
     FTB_QUEST("ftb"),
+    BETTER_QUESTING("bq"),
     ITEM("item"),
     DEFAULT("N/a");
 

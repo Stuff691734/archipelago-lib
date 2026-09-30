@@ -140,6 +140,15 @@ public class ArchipelagoClient extends Client {
                     this.server.getFTBQuest(questName).ifPresent(FTBQuestsInterface::updateVisibility);
                 }
                 break;
+            case BETTER_QUESTING:
+                String betterQuestingQuestName = itemName.split(" ",2)[0];
+                if (this.server.isModLoaded("betterquesting") && utils.isBetterQuestingQuestId(betterQuestingQuestName)) {
+                    this.state.addCheck(checkType.addPrefix(betterQuestingQuestName));
+                    this.server.sendCheckPacket(checkType.addPrefix(betterQuestingQuestName));
+
+                    this.server.getBetterQuestingQuest(betterQuestingQuestName).ifPresent(BetterQuestingInterface::updateVisibility);
+                }
+                break;
             case ITEM:
                 if (utils.isItemId(itemName)) {
                     utils.giveItem(this.server, itemName, index);
@@ -203,6 +212,8 @@ public class ArchipelagoClient extends Client {
                 return this.utils.isQuestId(id);
             case ADVANCEMENT:
                 return this.utils.isAdvancementId(id);
+            case BETTER_QUESTING:
+                return this.utils.isBetterQuestingQuestId(id);
             case ITEM:
                 return this.utils.isItemId(id);
             default:

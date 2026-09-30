@@ -369,6 +369,32 @@ public class Logic {
                 );
     }
 
+    private Map<String, Check> generateBetterQuestingChecks(ServerInterface server, boolean removeHidden) {
+        Map<String, Check> betterQuestingChecks = new HashMap<>();
+
+        for (BetterQuestingInterface quest : server.getAllBetterQuestingQuests()) {
+            // TODO: Dependency stuff
+
+            betterQuestingChecks.put(
+                    quest.getCheckName(),
+                    new Check(
+                            quest.getDifficulty(),
+                            new DependencyNotation(),
+                            quest.getPage()
+                    )
+            );
+        }
+        return betterQuestingChecks.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1, // use first instance when dealing with conflicts
+                        LinkedHashMap::new
+                ));
+    }
+
 
     /**
      * Writes a file with all check details to ./output/archipelago_data.json.
@@ -385,6 +411,9 @@ public class Logic {
 
         if (server.isModLoaded("ftbquests")) {
             checks.putAll(this.generateFTBQuestChecks(server, removeHidden));
+        }
+        if (server.isModLoaded("betterquesting")) {
+            checks.putAll(this.generateBetterQuestingChecks(server, removeHidden));
         }
 
         try {

@@ -77,6 +77,19 @@ public interface ServerInterface {
     List<FTBQuestsInterface> getAllFTBQuests();
 
     /**
+     * Returns a quest based on the quest name (id).
+     * @param questName the id of the quest.
+     * @return the quest based on the quest name.
+     */
+    Optional<BetterQuestingInterface> getBetterQuestingQuest(String questName);
+
+    /**
+     * Returns a list of all better questing quests.
+     * @return a list of all better questing quests.
+     */
+    List<BetterQuestingInterface> getAllBetterQuestingQuests();
+
+    /**
      * Returns the slotData from the server.
      * @return ths slotData from the server.
      */

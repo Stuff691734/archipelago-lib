@@ -23,6 +23,13 @@ public interface UtilsInterface extends LoggerInterface {
     boolean isQuestId(String questName);
 
     /**
+     * Returns whether the better questing quest is valid.
+     * @param questName the quest to check if is valid.
+     * @return whether the quest is valid.
+     */
+    boolean isBetterQuestingQuestId(String questName);
+
+    /**
      * Sends a message to the server console as well as all players.
      * Prefer using {@link UtilsInterface#sendMessageTranslatable(String message, Object... args)}.
      * @param message the message to send.

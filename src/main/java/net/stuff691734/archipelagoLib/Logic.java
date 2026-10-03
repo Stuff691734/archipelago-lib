@@ -258,6 +258,67 @@ public class Logic {
         return false;
     }
 
+    // TODO: add dependencies for on hover?
+
+    public boolean isBetterQuestingQuestStartable(BetterQuestingInterface quest, boolean original) {
+        if (this.slotData.isInitiated) {
+            if (
+                    !this.slotData.activated_modules.contains("BetterQuesting") ||
+                    !this.slotData.better_questing_shape.contains(quest.getDifficulty())
+            ) {
+                return original;
+            }
+
+            if (this.slotData.roots_unlocked && quest.isRoot()) {
+                return original;
+            }
+
+            if (Objects.equals(this.slotData.unlock_type, "tab")) {
+                if (state.hasCheck(quest.checkType().addPrefix(quest.getPage()))) {
+                    return original;
+                }
+            } else if (Objects.equals(this.slotData.unlock_type, "tree")) {
+                if (quest.isRoot()) {
+                    if (state.hasCheck(quest.checkType().addPrefix(quest.getId()))) {
+                        return original;
+                    }
+                } else {
+                    if (quest.getMinimumDependencies() == 0) {
+                        if (quest.getDependencies().stream().allMatch(
+                                dependency -> state.hasCheck(dependency.checkType().addPrefix(dependency.getId()))
+                        )) {
+                            return original;
+                        }
+                    } else if (quest.getMinimumDependencies() == 1) {
+                        if (quest.getDependencies().stream().anyMatch(dependency -> state.hasCheck(dependency.checkType().addPrefix(dependency.getId())))) {
+                            return original;
+                        }
+                    } else {
+                        return original;
+                    }
+                }
+            }
+
+
+        }
+        return false;
+    }
+
+    public boolean isBetterQuestingQuestRewardObtained(BetterQuestingInterface quest, boolean original) {
+        if (!this.slotData.isInitiated) {
+            return false;
+        }
+
+        if (
+                this.slotData.activated_modules.contains("BetterQuesting") &&
+                        this.slotData.better_questing_shape.contains(quest.getDifficulty()) &&
+                        this.slotData.better_questing_gives_rewards
+        ) {
+            return state.hasCheck(quest.checkType().addPrefix(quest.getId()));
+        }
+        return original;
+    }
+
     /**
      * Returns a map of all advancements to their details.
      * @param server the server to get advancements from.
@@ -373,14 +434,42 @@ public class Logic {
         Map<String, Check> betterQuestingChecks = new HashMap<>();
 
         for (BetterQuestingInterface quest : server.getAllBetterQuestingQuests()) {
-            // TODO: Dependency stuff
+            if (removeHidden) {
+                // no way to ever see this
+                if (quest.isHidden()) {
+                    continue;
+                }
+            }
+            DependencyNotation fullDependency = new DependencyNotation();
+            DependencyNotation questDependencies = new DependencyNotation();
+
+            List<BetterQuestingInterface> dependencies = quest.getDependencies();
+
+            if (quest.getMinimumDependencies() == -1) {
+                dependencies = new ArrayList<>();
+            } else if (quest.getMinimumDependencies() == 1 && !dependencies.isEmpty()) {
+                questDependencies.setMinimum(1);
+            } else if (quest.getMinimumDependencies() == 0) {
+                questDependencies.setMinimum(0);
+            }
+
+
+            List<String> advancementDependencyStrings = quest.getAdvancementDependencies();
+            List<AdvancementInterface> advancementDependencies = new ArrayList<>();
+
+            advancementDependencyStrings.forEach((advancement) -> advancementDependencies.add(server.getAdvancement(advancement)));
+
+            dependencies.forEach((dependency) -> questDependencies.addCheck(dependency.getCheckName()));
+
+            fullDependency.addNested(questDependencies);
+            fullDependency.addNested(new DependencyNotation(advancementDependencies.stream().map(AdvancementInterface::getCheckName)));
 
             betterQuestingChecks.put(
                     quest.getCheckName(),
                     new Check(
                             quest.getDifficulty(),
-                            new DependencyNotation(),
-                            quest.getPage()
+                            fullDependency,
+                            quest.getChapterCheckName()
                     )
             );
         }

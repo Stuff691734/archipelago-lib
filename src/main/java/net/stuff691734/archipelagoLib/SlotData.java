@@ -50,17 +50,17 @@ public class SlotData {
 
     public SlotData(Map<String, String> slotData) {
         this(
-                slotData.get("unlock_type"),
-                slotData.get("final_goal"),
-                slotData.get("activated_modules"),
-                slotData.get("advancement_check_difficulty"),
-                slotData.get("ftb_quest_check_shape"),
-                slotData.get("better_questing_shape"),
-                slotData.get("advancement_checks_give_items"),
-                slotData.get("quest_checks_give_rewards"),
-                slotData.get("better_questing_gives_rewards"),
-                slotData.get("death_link"),
-                slotData.get("roots_unlocked")
+                slotData.getOrDefault("unlock_type", ""),
+                slotData.getOrDefault("final_goal", ""),
+                slotData.getOrDefault("activated_modules", ""),
+                slotData.getOrDefault("advancement_check_difficulty", ""),
+                slotData.getOrDefault("ftb_quest_check_shape", ""),
+                slotData.getOrDefault("better_questing_shape", ""),
+                slotData.getOrDefault("advancement_checks_give_items", ""),
+                slotData.getOrDefault("quest_checks_give_rewards", ""),
+                slotData.getOrDefault("better_questing_gives_rewards", ""),
+                slotData.getOrDefault("death_link", ""),
+                slotData.getOrDefault("roots_unlocked", "")
         );
     }
 

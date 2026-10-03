@@ -2,6 +2,7 @@ package net.stuff691734.archipelagoLib;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SlotData {
@@ -19,7 +20,7 @@ public class SlotData {
 
     public boolean isInitiated = false;
 
-    public SlotData(
+    private SlotData(
             String unlock_type,
             String final_goal,
             String activated_modules,
@@ -45,6 +46,22 @@ public class SlotData {
         this.roots_unlocked = roots_unlocked.equals("1");
 
         this.isInitiated = true;
+    }
+
+    public SlotData(Map<String, String> slotData) {
+        this(
+                slotData.get("unlock_type"),
+                slotData.get("final_goal"),
+                slotData.get("activated_modules"),
+                slotData.get("advancement_check_difficulty"),
+                slotData.get("ftb_quest_check_shape"),
+                slotData.get("better_questing_shape"),
+                slotData.get("advancement_checks_give_items"),
+                slotData.get("quest_checks_give_rewards"),
+                slotData.get("better_questing_gives_rewards"),
+                slotData.get("death_link"),
+                slotData.get("roots_unlocked")
+        );
     }
 
     public SlotData() {

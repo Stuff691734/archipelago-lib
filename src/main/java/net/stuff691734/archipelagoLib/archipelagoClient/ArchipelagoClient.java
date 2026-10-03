@@ -68,17 +68,8 @@ public class ArchipelagoClient extends Client {
 
         Map<String, String> stateSlotData = this.state.getSlotData();
         data.entrySet().forEach((entry) -> stateSlotData.put(entry.getKey(), entry.getValue().getAsString()));
-        SlotData slotData = new SlotData(
-                stateSlotData.get("unlock_type"),
-                stateSlotData.get("final_goal"),
-                stateSlotData.get("activated_modules"),
-                stateSlotData.get("advancement_check_difficulty"),
-                stateSlotData.get("ftb_quest_check_shape"),
-                stateSlotData.get("advancement_checks_give_items"),
-                stateSlotData.get("quest_checks_give_rewards"),
-                stateSlotData.get("death_link"),
-                stateSlotData.get("roots_unlocked")
-        );
+        SlotData slotData = new SlotData(stateSlotData);
+
         this.server.setSlotData(slotData);
         this.server.sendSlotDataPacket(stateSlotData);
         this.server.sendChecksDataPacket(new ArrayList<>(this.state.getChecks().keySet()));

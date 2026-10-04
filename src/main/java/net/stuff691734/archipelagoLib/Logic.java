@@ -258,7 +258,17 @@ public class Logic {
         return false;
     }
 
-    // TODO: add dependencies for on hover?
+    public void addBetterQuestingDependencyTooltip(List<String> tooltip, BetterQuestingInterface quest) {
+        if (quest.getMinimumDependencies() == 1) {
+            tooltip.add("Archipelago Items. Any of {");
+        } else if (quest.getMinimumDependencies() == 0) {
+            tooltip.add("Archipelago Items. All of {");
+        }
+        for (BetterQuestingInterface dependency : quest.getDependencies()) {
+            tooltip.add("  " + dependency.getCheckName());
+        }
+        tooltip.add("}");
+    }
 
     public boolean isBetterQuestingQuestStartable(BetterQuestingInterface quest, boolean original) {
         if (this.slotData.isInitiated) {

@@ -259,15 +259,22 @@ public class Logic {
     }
 
     public void addBetterQuestingDependencyTooltip(List<String> tooltip, BetterQuestingInterface quest) {
-        if (quest.getMinimumDependencies() == 1) {
-            tooltip.add("Archipelago Items. Any of {");
-        } else if (quest.getMinimumDependencies() == 0) {
-            tooltip.add("Archipelago Items. All of {");
+
+        if (this.slotData.unlock_type.equals("tab")) {
+            tooltip.add("Archipelago Item: " + quest.getChapterCheckName());
+        } else if (!this.slotData.roots_unlocked) {
+            tooltip.add("Archipelago Item: " + quest.getCheckName());
+        } else {
+            if (quest.getMinimumDependencies() == 1) {
+                tooltip.add("Archipelago Items. Any of {");
+            } else if (quest.getMinimumDependencies() == 0) {
+                tooltip.add("Archipelago Items. All of {");
+            }
+            for (BetterQuestingInterface dependency : quest.getDependencies()) {
+                tooltip.add("  " + dependency.getCheckName());
+            }
+            tooltip.add("}");
         }
-        for (BetterQuestingInterface dependency : quest.getDependencies()) {
-            tooltip.add("  " + dependency.getCheckName());
-        }
-        tooltip.add("}");
     }
 
     public boolean isBetterQuestingQuestStartable(BetterQuestingInterface quest, boolean original) {

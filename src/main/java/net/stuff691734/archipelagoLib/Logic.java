@@ -7,7 +7,7 @@ import net.stuff691734.archipelagoLib.interfaces.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
+import java.io.StringWriter;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -525,8 +525,7 @@ public class Logic {
         try {
             new File("output").mkdir();
             new File("output/archipelago_data.json").createNewFile();
-
-            Writer writer = new FileWriter("output/archipelago_data.json");
+            StringWriter stringWriter = new StringWriter();
             GsonBuilder builder = new GsonBuilder()
                     .disableHtmlEscaping()
                     .registerTypeAdapter(DependencyNotation.class, new DependencyNotationSerializer())
@@ -535,7 +534,10 @@ public class Logic {
                 builder.setPrettyPrinting();
             }
             Gson gson = builder.create();
-            gson.toJson(checks, writer);
+            gson.toJson(checks, stringWriter);
+            FileWriter writer = new FileWriter("output/archipelago_data.json");
+            writer.write(stringWriter.toString().replace("\n", "\n    "));
+            stringWriter.close();
             writer.close();
         } catch (IOException e) {
             context.sendMessageTranslatable("archipelago.command.generate.error", e.getMessage());

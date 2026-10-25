@@ -192,7 +192,7 @@ public class ArchipelagoClient extends Client {
     }
 
     public void sendDeathLink(String message) {
-        if (this.getTags().contains(DeathLinkHandler.DEATHLINK_TAG)) {
+        if (this.server.getSlotData().death_link) {
             this.sendDeathlink(this.getMyName(), message);
         }
     }

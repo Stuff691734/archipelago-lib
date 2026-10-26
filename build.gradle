@@ -9,6 +9,9 @@ repositories {
     mavenCentral()
 }
 
+sourceCompatibility = 8
+targetCompatibility = 8
+
 dependencies {
     implementation('io.github.archipelagomw:Java-Client:0.2.1')
 }

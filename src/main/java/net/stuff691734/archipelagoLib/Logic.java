@@ -259,11 +259,18 @@ public class Logic {
     }
 
     public void addBetterQuestingDependencyTooltip(List<String> tooltip, BetterQuestingInterface quest) {
+        if (!this.slotData.isInitiated) {
+            tooltip.add("Archipelago Item: " + quest.getCheckName());
+            return;
+        }
+
+        if (quest.isRoot() && this.slotData.roots_unlocked) {
+            tooltip.add("Archipelago Item: " + quest.getCheckName());
+            return;
+        }
 
         if (this.slotData.unlock_type.equals("tab")) {
             tooltip.add("Archipelago Item: " + quest.getChapterCheckName());
-        } else if (!this.slotData.roots_unlocked) {
-            tooltip.add("Archipelago Item: " + quest.getCheckName());
         } else {
             if (quest.getMinimumDependencies() == 1) {
                 tooltip.add("Archipelago Items. Any of {");
